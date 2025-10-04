@@ -20,26 +20,10 @@ public class PlayerController : MonoBehaviour
     {
         Cursor.lockState = CursorLockMode.Locked;
         Cursor.visible = false;
-
     }
 
     void Update()
     {
-
-        // Liberar el cursor con ESC
-        if (Input.GetKeyDown(KeyCode.Escape))
-        {
-            Cursor.lockState = CursorLockMode.None;
-            Cursor.visible = true;
-        }
-
-        // Volver a bloquear con clic izquierdo
-        if (Input.GetMouseButtonDown(0))
-        {
-            Cursor.lockState = CursorLockMode.Locked;
-            Cursor.visible = false;
-        }
-
         HandleMovement();
         HandleCamera();
         HandleToolInputs();
