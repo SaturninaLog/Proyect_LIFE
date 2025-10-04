@@ -4,5 +4,11 @@
 EditorBuildSettings:
   m_ObjectHideFlags: 0
   serializedVersion: 2
-  m_Scenes: []
+  m_Scenes:
+  - enabled: 1
+    path: Assets/0Scenes/Granja.unity
+    guid: d44f048fb3039e74d817dab267aec9e9
+  - enabled: 1
+    path: Assets/0Scenes/MenuInicio.unity
+    guid: 2fd938c1edc5e184593bfbdc1ce09965
   m_configObjects: {}

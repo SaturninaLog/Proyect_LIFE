@@ -958,7 +958,6 @@ GameObject:
   - component: {fileID: 1351696609}
   - component: {fileID: 1351696606}
   - component: {fileID: 1351696607}
-  - component: {fileID: 1351696608}
   m_Layer: 0
   m_Name: Player
   m_TagString: Untagged
@@ -1162,44 +1161,8 @@ MonoBehaviour:
   maxDistance: 5
   soilMask:
     serializedVersion: 2
-    m_Bits: 64
-  selectedCropType: 0
---- !u!114 &1351696608
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1351696598}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d90dbbcfa3afe014c87a626a5f554e23, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  playerCamera: {fileID: 1475306339}
-  maxDistance: 10
-  waterAmount: 0.2
-  soilMask:
-    serializedVersion: 2
-    m_Bits: 64
---- !u!114 &1351696609
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1351696598}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: caaef70e158cb8248984518940d52f95, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  playerCamera: {fileID: 1475306339}
-  maxDistance: 10
-  fertilityAmount: 1
-  soilMask:
-    serializedVersion: 2
-    m_Bits: 64
+    m_Bits: 8
+  seedPrefab: {fileID: 0}
 --- !u!1 &1368803454
 GameObject:
   m_ObjectHideFlags: 0
