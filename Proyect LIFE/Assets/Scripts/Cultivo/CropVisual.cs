@@ -1,22 +1,19 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class CropVisual : MonoBehaviour
 {
-    public Crop cropData; // contiene los datos lógicos (tipo, etapa, etc.)
+    public Crop cropData;  // Referencia al Crop lógico
     public Renderer rend;
 
-    void Start()
+    void Awake()
     {
-        rend = GetComponent<Renderer>();
-        if (cropData == null)
-            cropData = new Crop(CropType.Corn); // valor por defecto
+        if (rend == null) rend = GetComponent<Renderer>();
     }
 
     void Update()
     {
-        // Cambiar color o tamaño según el estado
+        if (cropData == null) return;
+
         switch (cropData.stage)
         {
             case CropStage.Seed:
@@ -25,16 +22,27 @@ public class CropVisual : MonoBehaviour
                 break;
             case CropStage.Growing:
                 rend.material.color = Color.green;
-                transform.localScale = Vector3.one * 0.7f;
+                transform.localScale = Vector3.one * 0.4f;
                 break;
             case CropStage.Mature:
                 rend.material.color = new Color(0.6f, 0.3f, 0.1f);
-                transform.localScale = Vector3.one * 1.2f;
+                transform.localScale = Vector3.one * 0.5f;
                 break;
             case CropStage.Dead:
                 rend.material.color = Color.gray;
                 break;
         }
     }
-}
 
+    // Este método permite asignar el Crop desde SoilTile
+    public void SetCrop(Crop crop)
+    {
+        cropData = crop;
+    }
+
+    public void Grow(float deltaTime, float soilMoisture, float soilFertility)
+    {
+        // Solo crecer si cropData existe
+        cropData?.Grow(deltaTime, soilMoisture, soilFertility);
+    }
+}

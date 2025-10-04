@@ -50,16 +50,28 @@ public class Crop
 
     public void Grow(float deltaTime, float soilMoisture, float soilFertility)
     {
+        // Si ya está muerta o madura, no hacer nada
         if (stage == CropStage.Dead || stage == CropStage.Mature) return;
 
-        // Verificar condiciones mínimas
-        if (soilMoisture < waterNeed || soilFertility < soilFertilityNeed)
+        // La semilla inicia siempre en Seed
+        if (stage == CropStage.Seed)
         {
-            stage = CropStage.Dead;
-            return;
+            // Verificar condiciones mínimas del suelo
+            if (soilMoisture < waterNeed || soilFertility < soilFertilityNeed)
+            {
+                stage = CropStage.Dead; // Si no cumple, muere inmediatamente
+                return;
+            }
+            else
+            {
+                stage = CropStage.Growing; // Si cumple, pasa a Growing
+            }
         }
 
-        currentGrowth += deltaTime;
+        // Ajustar crecimiento según fertilidad (menos fertilidad = crecimiento más lento)
+        float growthMultiplier = Mathf.Clamp01(soilFertility / soilFertilityNeed);
+        currentGrowth += deltaTime * growthMultiplier;
+
         if (currentGrowth >= growthTime)
         {
             stage = CropStage.Mature;
@@ -69,5 +81,7 @@ public class Crop
             stage = CropStage.Growing;
         }
     }
+
+
 }
 
