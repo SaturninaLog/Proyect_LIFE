@@ -12,13 +12,13 @@ public class InteraccionBotones : MonoBehaviour
     // --- PARA ABRIR Y CERRAR PANELES ---
 
     //Activa el panel que se coloque en el inspector
-    public void OpenPanel(GameObject panel)
+    public void AbrirPanel(GameObject panel)
     {
         panel.SetActive(true);
     }
 
     //desactiva el panel que se coloque en el inspector
-    public void ClosePanel(GameObject panel)
+    public void CerrarPanel(GameObject panel)
     {
         panel.SetActive(false);
     }
