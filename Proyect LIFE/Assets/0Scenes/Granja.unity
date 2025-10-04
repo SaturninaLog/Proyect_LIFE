@@ -149,7 +149,7 @@ RectTransform:
   m_GameObject: {fileID: 181379940}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 0.13695118, y: 0.13695118, z: 0.13695118}
+  m_LocalScale: {x: 0.05826999, y: 0.05826999, z: 0.05826999}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 1096548793}
@@ -172,7 +172,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 0, g: 0, b: 0, a: 1}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
@@ -955,6 +955,7 @@ GameObject:
   - component: {fileID: 1351696600}
   - component: {fileID: 1351696599}
   - component: {fileID: 1351696605}
+  - component: {fileID: 1351696609}
   - component: {fileID: 1351696606}
   - component: {fileID: 1351696607}
   - component: {fileID: 1351696608}
@@ -1092,7 +1093,7 @@ Transform:
   m_GameObject: {fileID: 1351696598}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 1.01, z: 0}
+  m_LocalPosition: {x: 0, y: 1.01, z: -62.7}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -1113,9 +1114,19 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   buildTool: {fileID: 1351696606}
   plantTool: {fileID: 1351696607}
+  sprayTool: {fileID: 1351696608}
+  tillerTool: {fileID: 1351696609}
   soilPrefab: {fileID: 2030771683625982865, guid: bbde325ef777d82409753a37200c4b96, type: 3}
   housePrefab: {fileID: 5764997379564082329, guid: f61a88163afc7344985596ca0fe39c70, type: 3}
   greenhousePrefab: {fileID: 1504500488453104074, guid: 212b3c206ce287f4f920a7c0bd5308d4, type: 3}
+  buildKey: 98
+  plantKey: 112
+  sprayKey: 114
+  tillerKey: 116
+  noneKey: 27
+  soilKey: 49
+  houseKey: 50
+  greenhouseKey: 51
 --- !u!114 &1351696606
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1151,8 +1162,8 @@ MonoBehaviour:
   maxDistance: 5
   soilMask:
     serializedVersion: 2
-    m_Bits: 8
-  seedPrefab: {fileID: 0}
+    m_Bits: 64
+  selectedCropType: 0
 --- !u!114 &1351696608
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1162,9 +1173,33 @@ MonoBehaviour:
   m_GameObject: {fileID: 1351696598}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 7a934203604ed574d86f052bbf159325, type: 3}
+  m_Script: {fileID: 11500000, guid: d90dbbcfa3afe014c87a626a5f554e23, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  playerCamera: {fileID: 1475306339}
+  maxDistance: 10
+  waterAmount: 0.2
+  soilMask:
+    serializedVersion: 2
+    m_Bits: 64
+--- !u!114 &1351696609
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1351696598}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: caaef70e158cb8248984518940d52f95, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  playerCamera: {fileID: 1475306339}
+  maxDistance: 10
+  fertilityAmount: 1
+  soilMask:
+    serializedVersion: 2
+    m_Bits: 64
 --- !u!1 &1368803454
 GameObject:
   m_ObjectHideFlags: 0
