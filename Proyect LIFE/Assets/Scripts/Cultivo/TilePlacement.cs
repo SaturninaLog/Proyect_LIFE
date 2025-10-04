@@ -1,65 +1,59 @@
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+ï»¿using UnityEngine;
 
 public class TilePlacement : MonoBehaviour
 {
-    public Camera playerCamera;            // Cámara en primera persona
-    public GameObject soilTilePrefab;      // Prefab del terreno
-    public LayerMask placementMask;        // Suelo donde colocar
-    public float maxDistance = 10f;        // Rango de colocación
+    public Camera playerCamera;
+    public LayerMask placementMask;
+    public Material previewMaterial;
 
-    private GameObject previewTile;        // El "fantasma"
-    public Material previewMaterial;       // Material semitransparente para preview
+    private GameObject currentPrefab;
+    private GameObject previewInstance;
+    private Renderer previewRenderer;
+    private bool isActive = false;
+
+    public void Activate(GameObject prefab)
+    {
+        currentPrefab = prefab;
+        isActive = true;
+
+        if (previewInstance != null) Destroy(previewInstance);
+
+        previewInstance = Instantiate(currentPrefab);
+        previewRenderer = previewInstance.GetComponent<Renderer>();
+        if (!previewRenderer) previewRenderer = previewInstance.AddComponent<MeshRenderer>();
+
+        previewRenderer.material = new Material(previewMaterial);
+
+        Collider col = previewInstance.GetComponent<Collider>();
+        if (col != null) col.enabled = false;
+    }
+
+    public void Deactivate()
+    {
+        isActive = false;
+        if (previewInstance != null) Destroy(previewInstance);
+    }
 
     void Update()
     {
-        HandlePlacement();
-    }
+        if (!isActive || currentPrefab == null) return;
 
-    void HandlePlacement()
-    {
-        Ray ray = playerCamera.ScreenPointToRay(Input.mousePosition);
-        if (Physics.Raycast(ray, out RaycastHit hit, maxDistance, placementMask))
+        // Ray desde el centro de la cÃ¡mara
+        Ray ray = new Ray(playerCamera.transform.position, playerCamera.transform.forward);
+        if (Physics.Raycast(ray, out RaycastHit hit, 50f, placementMask))
         {
-            Vector3 position = hit.point;
-            position = new Vector3(Mathf.Round(position.x), 0, Mathf.Round(position.z)); // ajusta a grid
+            Vector3 pos = new Vector3(Mathf.Round(hit.point.x), hit.point.y, Mathf.Round(hit.point.z));
+            previewInstance.transform.position = pos;
+            previewRenderer.material.color = new Color(0f, 1f, 0f, 0.5f);
 
-            // Mostrar preview
-            if (previewTile == null)
-            {
-                previewTile = Instantiate(soilTilePrefab, position, Quaternion.identity);
-                SetPreviewMode(previewTile, true);
-            }
-            else
-            {
-                previewTile.transform.position = position;
-            }
-
-            // Confirmar colocación con clic izquierdo
             if (Input.GetMouseButtonDown(0))
             {
-                GameObject placedTile = Instantiate(soilTilePrefab, position, Quaternion.identity);
-                SetPreviewMode(placedTile, false); // versión real
+                Instantiate(currentPrefab, pos, Quaternion.identity);
             }
         }
-    }
-
-    void SetPreviewMode(GameObject tile, bool isPreview)
-    {
-        var rend = tile.GetComponent<Renderer>();
-        if (rend != null)
+        else
         {
-            if (isPreview)
-            {
-                rend.material = previewMaterial; // transparente
-                tile.GetComponent<Collider>().enabled = false;
-            }
-            else
-            {
-                tile.GetComponent<SoilTile>().enabled = true; // habilita el script real
-                tile.GetComponent<Collider>().enabled = true;
-            }
+            previewRenderer.material.color = new Color(1f, 0f, 0f, 0.5f);
         }
     }
 }

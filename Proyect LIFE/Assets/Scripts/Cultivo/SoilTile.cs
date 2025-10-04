@@ -1,13 +1,9 @@
-using System;
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
-
+Ôªøusing UnityEngine;
 
 public class SoilTile : MonoBehaviour
 {
-    public float fertility = 1f;  // calidad del suelo (0ñ1)
-    public float moisture = 1f;   // humedad (0ñ1)
+    public float fertility = 1f;  // calidad del suelo (0‚Äì1)
+    public float moisture = 1f;   // humedad (0‚Äì1)
     public bool hasCrop = false;
     public Crop currentCrop;
 
@@ -23,33 +19,15 @@ public class SoilTile : MonoBehaviour
     {
         // Para demo: refrescar color siempre (en un proyecto real se optimiza llamando solo cuando cambian los valores)
         UpdateVisuals();
-        if (currentCrop != null)
-        {
-            currentCrop.Grow(Time.deltaTime, moisture, fertility);
-        }
     }
 
-    public void PlantSeed(Crop crop, CropType type, Crop cropToPlant)
+    public void PlantSeed(Crop crop)
     {
         if (!hasCrop)
         {
             hasCrop = true;
             currentCrop = crop;
             Debug.Log("Semilla plantada en " + gameObject.name);
-
-            if (currentCrop == null)
-            {
-                currentCrop = new Crop(type);
-            }
-        }
-    }
-
-    public void Harvest()
-    {
-        if (currentCrop != null && currentCrop.stage == CropStage.Mature)
-        {
-            Debug.Log("Cosechaste " + currentCrop.type);
-            currentCrop = null;
         }
     }
 
@@ -57,23 +35,18 @@ public class SoilTile : MonoBehaviour
     {
         if (rend == null) return;
 
-        // Color base: marrÛn (tierra)
+        // Color base: marr√≥n (tierra)
         Color baseColor = new Color(0.4f, 0.25f, 0.1f);
 
-        // Ajustar humedad: m·s negro = m·s h˙medo
-        float blackTint = Mathf.Clamp01(moisture);
+        // Ajustar humedad: m√°s azul = m√°s h√∫medo
+        float blueTint = Mathf.Clamp01(moisture);
 
-        // Ajustar fertilidad: m·s verde = m·s fÈrtil
+        // Ajustar fertilidad: m√°s verde = m√°s f√©rtil
         float greenTint = Mathf.Clamp01(fertility);
 
         // Combinar colores
-        Color finalColor = baseColor + new Color(0, greenTint * 0.5f, blackTint * 0.5f);
+        Color finalColor = baseColor + new Color(0, greenTint * 0.5f, blueTint * 0.5f);
 
         rend.material.color = finalColor;
-    }
-
-    internal void PlantSeed(CropType cropToPlant)
-    {
-        throw new NotImplementedException();
     }
 }
