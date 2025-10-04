@@ -105,7 +105,7 @@ public class SoilTile : MonoBehaviour
         Debug.Log($"🌱 Fertilidad ahora: {fertility}");
     }
 
-    void UpdateVisuals()
+    public void UpdateVisuals()
     {
         if (rend == null) return;
 
