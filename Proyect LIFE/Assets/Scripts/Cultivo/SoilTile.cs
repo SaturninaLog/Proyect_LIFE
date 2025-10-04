@@ -2,51 +2,134 @@
 
 public class SoilTile : MonoBehaviour
 {
-    public float fertility = 1f;  // calidad del suelo (0–1)
-    public float moisture = 1f;   // humedad (0–1)
+    [Header("Propiedades del suelo")]
+    public float fertility = 0.5f;        // calidad del suelo (0–1)
+    public int moistureLevel = 0;         // 0 = seco, 1 = medio, 2 = húmedo
+    public float minFertilityToPlant = 0.2f;
+
+    [Header("Crops")]
+    public GameObject cropPrefab;         // prefab de la planta
+    public int gridSize = 3;              // 3x3 grid
+    private CropVisual[,] cropsGrid;
     public bool hasCrop = false;
     public Crop currentCrop;
 
     private Renderer rend;
 
+    [Header("Espaciado de semillas")]
+    public float cellSpacing = 0.4f;      // Distancia entre semillas
+
     void Start()
     {
         rend = GetComponent<Renderer>();
+        if (rend != null) rend.material = new Material(rend.material);
+
+        // Inicializar grilla
+        cropsGrid = new CropVisual[gridSize, gridSize];
         UpdateVisuals();
     }
 
     void Update()
     {
-        // Para demo: refrescar color siempre (en un proyecto real se optimiza llamando solo cuando cambian los valores)
         UpdateVisuals();
+
+        // Convertimos moistureLevel a valor float normalizado (0–1)
+        float normalizedMoisture = Mathf.Clamp01(moistureLevel / 2f);
+
+        // Hacer crecer todas las semillas en la grilla
+        for (int x = 0; x < gridSize; x++)
+        {
+            for (int z = 0; z < gridSize; z++)
+            {
+                if (cropsGrid[x, z] != null && cropsGrid[x, z].cropData != null)
+                {
+                    cropsGrid[x, z].Grow(Time.deltaTime, normalizedMoisture, fertility);
+                }
+            }
+        }
     }
 
-    public void PlantSeed(Crop crop)
+    // 🌱 Plantar semilla en la posición de la grilla
+    public void PlantSeed(CropType type)
     {
-        if (!hasCrop)
+        if (fertility < minFertilityToPlant)
         {
-            hasCrop = true;
-            currentCrop = crop;
-            Debug.Log("Semilla plantada en " + gameObject.name);
+            Debug.Log("⚠️ Suelo no lo suficientemente fértil para plantar.");
+            return;
         }
+
+        // Buscar la primera celda vacía
+        for (int x = 0; x < gridSize; x++)
+        {
+            for (int z = 0; z < gridSize; z++)
+            {
+                if (cropsGrid[x, z] == null)
+                {
+                    Vector3 localPos = GetGridPosition(x, z);
+                    GameObject cropObj = Instantiate(cropPrefab, transform.position + localPos, Quaternion.identity, transform);
+
+                    CropVisual cv = cropObj.GetComponent<CropVisual>();
+                    cv.SetCrop(new Crop(type));
+
+                    cropsGrid[x, z] = cv;
+                    Debug.Log($"🌱 Semilla plantada en {x},{z}");
+                    return; // Ya plantamos, salimos
+                }
+            }
+        }
+
+        Debug.Log("⚠️ Todas las posiciones de la grilla están ocupadas.");
+    }
+
+    // Obtener la posición local de la grilla
+    private Vector3 GetGridPosition(int x, int z)
+    {
+        float start = -cellSpacing * (gridSize - 1) / 2f;
+        return new Vector3(start + x * cellSpacing, 0.5f, start + z * cellSpacing);
+    }
+
+    // 💧 Subir un nivel de humedad
+    public void ApplyWater()
+    {
+        if (moistureLevel < 2)
+        {
+            moistureLevel++;
+            Debug.Log($"💧 Humedad aumentada a nivel {moistureLevel}");
+        }
+    }
+
+    // 🌱 Incrementar fertilidad
+    public void IncreaseFertility(float amount)
+    {
+        fertility = Mathf.Clamp01(fertility + amount);
+        Debug.Log($"🌱 Fertilidad ahora: {fertility}");
     }
 
     void UpdateVisuals()
     {
         if (rend == null) return;
 
-        // Color base: marrón (tierra)
-        Color baseColor = new Color(0.4f, 0.25f, 0.1f);
+        Color baseColor = new Color(0.6f, 0.45f, 0.3f);
 
-        // Ajustar humedad: más azul = más húmedo
-        float blueTint = Mathf.Clamp01(moisture);
+        // Oscurecer por humedad
+        float moistureFactor = 0f;
+        switch (moistureLevel)
+        {
+            case 0: moistureFactor = 0f; break;
+            case 1: moistureFactor = 0.2f; break;
+            case 2: moistureFactor = 0.4f; break;
+        }
 
-        // Ajustar fertilidad: más verde = más fértil
-        float greenTint = Mathf.Clamp01(fertility);
+        Color darkened = new Color(
+            Mathf.Clamp01(baseColor.r - moistureFactor),
+            Mathf.Clamp01(baseColor.g - moistureFactor),
+            Mathf.Clamp01(baseColor.b - moistureFactor)
+        );
 
-        // Combinar colores
-        Color finalColor = baseColor + new Color(0, greenTint * 0.5f, blueTint * 0.5f);
+        // Ligeramente más verde si hay fertilidad
+        Color fertilityTint = new Color(0f, 0.15f, 0f);
+        darkened = Color.Lerp(darkened, darkened + fertilityTint, fertility * 0.5f);
 
-        rend.material.color = finalColor;
+        rend.material.color = darkened;
     }
 }
