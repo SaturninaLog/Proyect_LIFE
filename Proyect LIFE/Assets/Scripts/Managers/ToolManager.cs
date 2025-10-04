@@ -1,37 +1,58 @@
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
-public enum ToolType { None, Build, Plant, Water, Harvest }
+public enum ToolType { None, Build, Plant }
 
 public class ToolManager : MonoBehaviour
 {
-    public ToolType currentTool = ToolType.None;
-
     [Header("Herramientas")]
-    public TilePlacement buildTool;   // Colocar terreno
-    public PlantTool plantTool;       // Plantar semillas
-    // Futuras herramientas -> WaterTool, HarvestTool, etc.
+    public TilePlacement buildTool;
+    public PlantTool plantTool;
 
-    void Update()
+    [Header("Prefabs disponibles")]
+    public GameObject soilPrefab;
+    public GameObject housePrefab;
+    public GameObject greenhousePrefab;
+
+    private ToolType currentTool = ToolType.None;
+
+    // Cambia la herramienta activa
+    public void SetTool(ToolType newTool)
     {
-        HandleInput();
-        UpdateTools();
+        // Desactivar herramienta anterior
+        switch (currentTool)
+        {
+            case ToolType.Build:
+                if (buildTool != null) buildTool.Deactivate();
+                break;
+            case ToolType.Plant:
+                if (plantTool != null) plantTool.Deactivate();
+                break;
+        }
+
+        // Activar la nueva herramienta
+        currentTool = newTool;
+        switch (currentTool)
+        {
+            case ToolType.Build:
+                if (buildTool != null) buildTool.Activate(soilPrefab);
+                Debug.Log("🧱 Herramienta: Construcción activada");
+                break;
+
+            case ToolType.Plant:
+                if (plantTool != null) plantTool.Activate();
+                Debug.Log("🌱 Herramienta: Plantar activada");
+                break;
+
+            case ToolType.None:
+                Debug.Log("❌ Ninguna herramienta activa");
+                break;
+        }
     }
 
-    void HandleInput()
+    // Cambiar qué objeto construir sin cambiar de herramienta
+    public void SetBuildPrefab(GameObject newPrefab)
     {
-        if (Input.GetKeyDown(KeyCode.Alpha1)) currentTool = ToolType.Build;
-        if (Input.GetKeyDown(KeyCode.Alpha2)) currentTool = ToolType.Plant;
-        if (Input.GetKeyDown(KeyCode.Alpha0)) currentTool = ToolType.None; // Sin herramienta
-    }
-
-    void UpdateTools()
-    {
-        // Habilitar/deshabilitar scripts seg�n herramienta actual
-        buildTool.enabled = (currentTool == ToolType.Build);
-        plantTool.enabled = (currentTool == ToolType.Plant);
-        // lo mismo con futuras herramientas
+        if (buildTool != null)
+            buildTool.Activate(newPrefab);
     }
 }
-

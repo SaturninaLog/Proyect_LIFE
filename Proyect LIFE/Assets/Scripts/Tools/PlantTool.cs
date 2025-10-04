@@ -1,31 +1,50 @@
-using System.Collections;
+﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-
 
 public class PlantTool : MonoBehaviour
 {
     public Camera playerCamera;
     public float maxDistance = 5f;
-    public CropType cropToPlant = CropType.Corn;
+    public LayerMask soilMask;
+    public GameObject seedPrefab;   // 👈 Arrastra aquí el prefab de la planta o semilla
+
+    private bool isActive = false;
 
     void Update()
     {
-        if (Input.GetMouseButtonDown(0)) TryPlant();
+        if (!isActive) return;
+
+        HandlePlanting();
     }
 
-    void TryPlant()
+    public void Activate()
     {
-        Ray ray = playerCamera.ScreenPointToRay(Input.mousePosition);
-        if (Physics.Raycast(ray, out RaycastHit hit, maxDistance))
+        isActive = true;
+    }
+
+    public void Deactivate()
+    {
+        isActive = false;
+    }
+
+    void HandlePlanting()
+    {
+        // Raycast desde el centro de la pantalla
+        Ray ray = playerCamera.ScreenPointToRay(new Vector3(Screen.width / 2f, Screen.height / 2f, 0));
+
+        if (Physics.Raycast(ray, out RaycastHit hit, maxDistance, soilMask))
         {
-            SoilTile tile = hit.collider.GetComponent<SoilTile>();
-            if (tile != null && tile.currentCrop == null)
+            if (Input.GetMouseButtonDown(0))
             {
-                tile.PlantSeed(cropToPlant); // ahora coincide
-                Debug.Log("Plantaste " + cropToPlant + " en " + tile.name);
+                SoilTile soil = hit.collider.GetComponent<SoilTile>();
+
+                if (soil != null)
+                {
+                    // 🌱 Aquí plantamos la semilla (el prefab se instancia dentro del SoilTile)
+                    //soil.PlantSeed(seedPrefab);
+                }
             }
         }
     }
 }
-
