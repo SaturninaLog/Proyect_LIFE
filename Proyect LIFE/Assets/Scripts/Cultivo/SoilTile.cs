@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -28,7 +29,7 @@ public class SoilTile : MonoBehaviour
         }
     }
 
-    public void PlantSeed(Crop crop, CropType type)
+    public void PlantSeed(Crop crop, CropType type, Crop cropToPlant)
     {
         if (!hasCrop)
         {
@@ -69,5 +70,10 @@ public class SoilTile : MonoBehaviour
         Color finalColor = baseColor + new Color(0, greenTint * 0.5f, blackTint * 0.5f);
 
         rend.material.color = finalColor;
+    }
+
+    internal void PlantSeed(CropType cropToPlant)
+    {
+        throw new NotImplementedException();
     }
 }
