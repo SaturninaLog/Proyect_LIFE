@@ -1,43 +1,83 @@
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
 public class DayNightCycle : MonoBehaviour
 {
-    // Start is called before the first frame update
+    [Header("Configuración del tiempo")]
+    public float min;
+    public float grados;
+    public float timeSpeed = 1f;
 
-    public float min, grados;
-    public float timeSpeed = 1;
+    [Header("Luz solar y lunar")]
+    public Light sol;
     public Light luna;
-    
 
-    // Update is called once per frame
+    [Header("Intensidades de luz")]
+    public float intensidadDia = 1f;
+    public float intensidadNoche = 0.1f;
+    public float intensidadLuna = 0.3f;
+
+    [Header("Iluminación ambiental")]
+    public Color luzDia = new Color(1f, 0.95f, 0.8f);
+    public Color luzNoche = new Color(0.25f, 0.3f, 0.45f);
+
+    [Header("Skyboxes")]
+    public Material skyboxDia;
+    public Material skyboxNoche;
+
+    private bool esDeDia = true;
+
     void Update()
     {
-        //1 dia = 24 min
-
+        // Simulación del paso del tiempo
         min += timeSpeed * Time.deltaTime;
-        
-        //60 min = 1 hs = 24 hs
+        if (min >= 1440f) min = 0f;
 
-        if (min >= 1440) //Tiempo del dia - 1440 son 24hs
+        // Rotación solar
+        grados = min / 4f;
+        sol.transform.localEulerAngles = new Vector3(grados, -90f, 0f);
+
+        bool ahoraEsDia = grados < 180f;
+
+        // Cambiar entre día y noche
+        if (ahoraEsDia != esDeDia)
         {
-            min = 0;
+            esDeDia = ahoraEsDia;
+            CambiarSkybox(esDeDia);
         }
-        //360 grados / 1440 - 1 grado = 0.25min
-        grados = min / 4;
-        this.transform.localEulerAngles = new Vector3(grados, -90f, 0f);
 
-        if(grados >= 180)
+        // Transiciones suaves de luz e iluminación
+        if (ahoraEsDia)
         {
-            this.GetComponent<Light>().enabled = false;
-            luna.enabled = true;
+            sol.intensity = Mathf.Lerp(sol.intensity, intensidadDia, Time.deltaTime * 0.5f);
+            luna.intensity = Mathf.Lerp(luna.intensity, 0f, Time.deltaTime * 0.5f);
+            RenderSettings.ambientLight = Color.Lerp(RenderSettings.ambientLight, luzDia, Time.deltaTime * 0.5f);
         }
         else
         {
-            this.GetComponent<Light>().enabled = true;
-            luna.enabled = false;
+            sol.intensity = Mathf.Lerp(sol.intensity, intensidadNoche, Time.deltaTime * 0.5f);
+            luna.intensity = Mathf.Lerp(luna.intensity, intensidadLuna, Time.deltaTime * 0.5f);
+            RenderSettings.ambientLight = Color.Lerp(RenderSettings.ambientLight, luzNoche, Time.deltaTime * 0.5f);
         }
 
+        sol.enabled = ahoraEsDia;
+        luna.enabled = !ahoraEsDia;
+
+        // Forzar actualización del entorno
+        DynamicGI.UpdateEnvironment();
+    }
+
+    void CambiarSkybox(bool dia)
+    {
+        if (dia && skyboxDia != null)
+        {
+            RenderSettings.skybox = skyboxDia;
+        }
+        else if (!dia && skyboxNoche != null)
+        {
+            RenderSettings.skybox = skyboxNoche;
+        }
+
+        // 🔄 Forzar que Unity actualice la iluminación global
+        DynamicGI.UpdateEnvironment();
     }
 }
