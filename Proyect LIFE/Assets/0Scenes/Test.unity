@@ -1011,6 +1011,8 @@ GameObject:
   - component: {fileID: 1351696600}
   - component: {fileID: 1351696599}
   - component: {fileID: 1351696605}
+  - component: {fileID: 1351696611}
+  - component: {fileID: 1351696610}
   - component: {fileID: 1351696609}
   - component: {fileID: 1351696606}
   - component: {fileID: 1351696607}
@@ -1171,14 +1173,16 @@ MonoBehaviour:
   buildTool: {fileID: 1351696606}
   plantTool: {fileID: 1351696607}
   sprayTool: {fileID: 1351696608}
-  tillerTool: {fileID: 1351696609}
+  tillTool: {fileID: 1351696609}
+  harvestTool: {fileID: 1351696611}
   soilPrefab: {fileID: 2030771683625982865, guid: bbde325ef777d82409753a37200c4b96, type: 3}
   housePrefab: {fileID: 5764997379564082329, guid: f61a88163afc7344985596ca0fe39c70, type: 3}
   greenhousePrefab: {fileID: 1504500488453104074, guid: 212b3c206ce287f4f920a7c0bd5308d4, type: 3}
   buildKey: 98
   plantKey: 112
   sprayKey: 114
-  tillerKey: 116
+  tillKey: 116
+  harvestKey: 104
   noneKey: 27
   soilKey: 49
   houseKey: 50
@@ -1256,6 +1260,36 @@ MonoBehaviour:
   soilMask:
     serializedVersion: 2
     m_Bits: 64
+--- !u!114 &1351696610
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1351696598}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a97ec38af0680b246b8f9f7748821a89, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &1351696611
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1351696598}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5646a793cbcdb5e4dba5cf2c65945912, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  playerCamera: {fileID: 1475306339}
+  maxDistance: 10
+  soilMask:
+    serializedVersion: 2
+    m_Bits: 64
+  inventory: {fileID: 1351696610}
 --- !u!1 &1368803454
 GameObject:
   m_ObjectHideFlags: 0
@@ -1366,7 +1400,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   min: 0
   grados: 0
-  timeSpeed: 30
+  timeSpeed: 40
   luna: {fileID: 1533677153}
 --- !u!1 &1475306338
 GameObject:
@@ -1726,7 +1760,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6366506307528112115, guid: 15b3df3c532ee8648aba60548e9169da, type: 3}
       propertyPath: m_LocalPosition.z
-      value: 0.9
+      value: -37.9
       objectReference: {fileID: 0}
     - target: {fileID: 6366506307528112115, guid: 15b3df3c532ee8648aba60548e9169da, type: 3}
       propertyPath: m_LocalRotation.w

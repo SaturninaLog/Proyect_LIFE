@@ -102,7 +102,7 @@ public class SoilTile : MonoBehaviour
     public void IncreaseFertility(float amount)
     {
         fertility = Mathf.Clamp01(fertility + amount);
-        Debug.Log($"🌱 Fertilidad ahora: {fertility}");
+        //Debug.Log($"🌱 Fertilidad ahora: {fertility}");
     }
 
     public void UpdateVisuals()
@@ -132,4 +132,17 @@ public class SoilTile : MonoBehaviour
 
         rend.material.color = darkened;
     }
+
+    public CropVisual GetCropAt(int x, int z)
+    {
+        if (x < 0 || z < 0 || x >= gridSize || z >= gridSize) return null;
+        return cropsGrid[x, z];
+    }
+
+    public void ClearCropAt(int x, int z)
+    {
+        if (x < 0 || z < 0 || x >= gridSize || z >= gridSize) return;
+        cropsGrid[x, z] = null;
+    }
+
 }
