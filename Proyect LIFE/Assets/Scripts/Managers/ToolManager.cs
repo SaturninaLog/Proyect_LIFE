@@ -24,6 +24,15 @@ public class ToolManager : MonoBehaviour
     public GameObject housePrefab;
     public GameObject greenhousePrefab;
 
+    [Header("Modelos en mano")]
+    public GameObject buildModel;
+    public GameObject plantModel;
+    public GameObject sprayModel;
+    public GameObject tillModel;
+    public GameObject harvestModel;
+
+    private GameObject currentModel;
+
     [Header("Input - Teclas para activar herramientas")]
     public KeyCode buildKey = KeyCode.B;
     public KeyCode plantKey = KeyCode.P;
@@ -148,6 +157,30 @@ public class ToolManager : MonoBehaviour
             case ToolType.None:
                 Debug.Log("❌ Ninguna herramienta activa");
                 break;
+        }
+
+        // 🔹 Actualizar modelo visual en mano
+        if (currentModel != null)
+            currentModel.SetActive(false);
+
+        switch (currentTool)
+        {
+            case ToolType.Build: currentModel = buildModel; break;
+            case ToolType.Plant: currentModel = plantModel; break;
+            case ToolType.Spray: currentModel = sprayModel; break;
+            case ToolType.Till: currentModel = tillModel; break;
+            case ToolType.Harvest: currentModel = harvestModel; break;
+            default: currentModel = null; break;
+        }
+
+        if (currentModel != null)
+        {
+            currentModel.SetActive(true);
+            Debug.Log("👋 Mostrando herramienta en mano: " + currentModel.name);
+        }
+        else
+        {
+            Debug.Log("❌ Sin herramienta visual activa");
         }
     }
 
