@@ -1,9 +1,29 @@
 fileFormatVersion: 2
-guid: 238f83d296fbab94ab431a16a891d7ca
+guid: 1dd8d586dab03474e82b5aa6093d3e3d
 ModelImporter:
   serializedVersion: 22200
   internalIDToNameTable: []
-  externalObjects: {}
+  externalObjects:
+  - first:
+      type: UnityEngine:Texture2D
+      assembly: UnityEngine.CoreModule
+      name: Pila_Troncos_DefaultMaterial_BaseColor
+    second: {fileID: 2800000, guid: 528cbc2f35d8ac94b8cc09a39b54d522, type: 3}
+  - first:
+      type: UnityEngine:Texture2D
+      assembly: UnityEngine.CoreModule
+      name: Pila_Troncos_DefaultMaterial_Metallic
+    second: {fileID: 2800000, guid: 4feaacd9e04fd63469489786b9c473d1, type: 3}
+  - first:
+      type: UnityEngine:Texture2D
+      assembly: UnityEngine.CoreModule
+      name: Pila_Troncos_DefaultMaterial_Normal
+    second: {fileID: 2800000, guid: 3f62df5dd2b255a4888503ba9b391fe3, type: 3}
+  - first:
+      type: UnityEngine:Texture2D
+      assembly: UnityEngine.CoreModule
+      name: Pila_Troncos_DefaultMaterial_Roughness
+    second: {fileID: 2800000, guid: 0b13df2b1128a574d8edf0c642dc645c, type: 3}
   materials:
     materialImportMode: 2
     materialName: 0

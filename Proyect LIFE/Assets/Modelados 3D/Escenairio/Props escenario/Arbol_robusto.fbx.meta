@@ -1,9 +1,14 @@
 fileFormatVersion: 2
-guid: 238f83d296fbab94ab431a16a891d7ca
+guid: 72099066fe658b8419bec9ceeced491e
 ModelImporter:
   serializedVersion: 22200
   internalIDToNameTable: []
-  externalObjects: {}
+  externalObjects:
+  - first:
+      type: UnityEngine:Texture2D
+      assembly: UnityEngine.CoreModule
+      name: Bake_Arbol03
+    second: {fileID: 2800000, guid: d9b3ba0c131b21a4e8c98788c76e02c0, type: 3}
   materials:
     materialImportMode: 2
     materialName: 0

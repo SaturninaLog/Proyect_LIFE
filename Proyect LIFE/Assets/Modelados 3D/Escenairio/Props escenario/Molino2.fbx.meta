@@ -1,9 +1,14 @@
 fileFormatVersion: 2
-guid: 238f83d296fbab94ab431a16a891d7ca
+guid: 7f926ef76e7ce6349b41e7bb7fc416f3
 ModelImporter:
   serializedVersion: 22200
   internalIDToNameTable: []
-  externalObjects: {}
+  externalObjects:
+  - first:
+      type: UnityEngine:Texture2D
+      assembly: UnityEngine.CoreModule
+      name: Bake_Molino
+    second: {fileID: 2800000, guid: a398d4f18e0727a4b905e09f45e62570, type: 3}
   materials:
     materialImportMode: 2
     materialName: 0

@@ -1,9 +1,29 @@
 fileFormatVersion: 2
-guid: 238f83d296fbab94ab431a16a891d7ca
+guid: d8ba81bac87d6e8439b0f79b3bb5597e
 ModelImporter:
   serializedVersion: 22200
   internalIDToNameTable: []
-  externalObjects: {}
+  externalObjects:
+  - first:
+      type: UnityEngine:Texture2D
+      assembly: UnityEngine.CoreModule
+      name: Valla_Material.005_BaseColor
+    second: {fileID: 2800000, guid: 4066e61bd1d05a645a594568542d452d, type: 3}
+  - first:
+      type: UnityEngine:Texture2D
+      assembly: UnityEngine.CoreModule
+      name: Valla_Material.005_Metallic
+    second: {fileID: 2800000, guid: 0aab0e11e4acaa545b46686f84305cf2, type: 3}
+  - first:
+      type: UnityEngine:Texture2D
+      assembly: UnityEngine.CoreModule
+      name: Valla_Material.005_Normal
+    second: {fileID: 2800000, guid: 8f02130a4497d0c45bc703ee3dd23258, type: 3}
+  - first:
+      type: UnityEngine:Texture2D
+      assembly: UnityEngine.CoreModule
+      name: Valla_Material.005_Roughness
+    second: {fileID: 2800000, guid: dd32643d41e5251468411947c59859f6, type: 3}
   materials:
     materialImportMode: 2
     materialName: 0

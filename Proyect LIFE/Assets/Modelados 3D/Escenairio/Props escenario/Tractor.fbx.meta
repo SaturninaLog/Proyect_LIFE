@@ -1,9 +1,14 @@
 fileFormatVersion: 2
-guid: 238f83d296fbab94ab431a16a891d7ca
+guid: eec07aa17bc129b4c8ca4bdf7eabe82a
 ModelImporter:
   serializedVersion: 22200
   internalIDToNameTable: []
-  externalObjects: {}
+  externalObjects:
+  - first:
+      type: UnityEngine:Texture2D
+      assembly: UnityEngine.CoreModule
+      name: Bake_Tractor
+    second: {fileID: 2800000, guid: 51823767c198e064aab5df9f2ad0f322, type: 3}
   materials:
     materialImportMode: 2
     materialName: 0

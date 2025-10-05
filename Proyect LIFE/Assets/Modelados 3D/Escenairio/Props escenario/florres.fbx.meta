@@ -1,9 +1,14 @@
 fileFormatVersion: 2
-guid: 238f83d296fbab94ab431a16a891d7ca
+guid: 71b5ceba736bbd946afd79eb1b79668b
 ModelImporter:
   serializedVersion: 22200
   internalIDToNameTable: []
-  externalObjects: {}
+  externalObjects:
+  - first:
+      type: UnityEngine:Texture2D
+      assembly: UnityEngine.CoreModule
+      name: bakeflor
+    second: {fileID: 2800000, guid: 709e5e63e4588c74fbd92e5e64ee12ee, type: 3}
   materials:
     materialImportMode: 2
     materialName: 0

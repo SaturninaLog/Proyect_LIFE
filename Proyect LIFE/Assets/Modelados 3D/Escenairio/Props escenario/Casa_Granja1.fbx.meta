@@ -1,9 +1,19 @@
 fileFormatVersion: 2
-guid: 238f83d296fbab94ab431a16a891d7ca
+guid: 35888528b77d27f46924c51dd0034ce0
 ModelImporter:
   serializedVersion: 22200
   internalIDToNameTable: []
-  externalObjects: {}
+  externalObjects:
+  - first:
+      type: UnityEngine:Texture2D
+      assembly: UnityEngine.CoreModule
+      name: Bake_CasaGranja
+    second: {fileID: 2800000, guid: 28c6b6d9794945c4e9d31ff5ef616580, type: 3}
+  - first:
+      type: UnityEngine:Texture2D
+      assembly: UnityEngine.CoreModule
+      name: shaded
+    second: {fileID: 2800000, guid: e24c9b39b56152b4fae96af2ec1ec2f9, type: 3}
   materials:
     materialImportMode: 2
     materialName: 0
